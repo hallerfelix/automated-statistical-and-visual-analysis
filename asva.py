@@ -1,9 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[1]:
-
-
 # import importlib
 import importlib
 
@@ -493,10 +487,3 @@ if __name__ == '__main__':
     # Start the event loop and exit when it is finished.
     # The return value is passed to sys.exit() and used as the script's exit status.
     sys.exit(app.exec_()) 
-
-
-# In[ ]:
-
-
-
-
