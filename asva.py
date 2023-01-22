@@ -60,6 +60,7 @@ class ASVA:
         variance_list = [tuple(array(self.data[self.data[self.group_column] == g][self.column].tolist())) for g in self.group_values]
         # perform Levene's test on data in variance_list
         variance_p = levene(*variance_list)[1]
+        print(variance_p)
         # return "equal_variance" if p-value is greater than or equal to 0.05
         return "equal_variance" if variance_p >= 0.05 else "unequal_variance"
     
@@ -105,9 +106,9 @@ class ASVA:
         # Rename the resulting p-value column to 'pval'
         self.pc.rename(columns={"p-tukey":"pval"}, inplace=True)
         # Create a text string containing some information about the results of the tests
-        self.text = [f"The data is normal distributed with equal variances.\n",
-                     f"One-Way ANOVA:p={np.around(float(self.p.item()), 3)}\n",
-                     f"--> Tukey post hoc Test"]
+        self.text = ["The data is normal distributed with equal variances.\n",
+                     "One-Way ANOVA:p={:.3f}\n".format(self.p.item()),
+                     "--> Tukey post hoc Test"]
         self.text = "".join(self.text)
         # Print the name of the column being analyzed and the text string
         print(f"## {self.column } ##")
@@ -124,9 +125,9 @@ class ASVA:
         # Perform a Games-Howell post hoc test on the specified column
         self.pc = pairwise_gameshowell(dv=self.column, between=self.group_column, data=self.data, effsize="none")
         # Create a text string containing some information about the results of the tests
-        self.text = [f"The data is normal distributed with unequal variances.\n",
-                     f"Welch's ANOVA:p={np.around(float(self.p.item()), 3)}\n",
-                     f"--> Games-Howell post hoc Test"]
+        self.text = ["The data is normal distributed with unequal variances.\n",
+                     "Welch's ANOVA:p={.3f}\n".format(round(float(self.p.item()), 3)),
+                     "--> Games-Howell post hoc Test"]
         self.text = "".join(self.text)
         # Print the name of the column being analyzed and the text string
         print(f"## {self.column} ##")
@@ -146,9 +147,9 @@ class ASVA:
         # Rename the resulting p-value column to 'pval'
         self.pc.rename(columns={"p-corr":"pval"}, inplace=True)
         # Create a text string containing some information about the results of the tests
-        self.text = [f"The data is not normally distributed.\n",
-                    f"Kruskal-Wallis-Test:p={np.around(float(self.p.item()), 3)}\n",
-                    f"--> Mann–Whitney U test with sidak multiple comparison correction"]
+        self.text = ["The data is not normally distributed.\n",
+                    "Kruskal-Wallis-Test:p={:.3f}\n".format(self.p.item()),
+                    "--> Mann–Whitney U test with sidak multiple comparison correction"]
         self.text = "".join(self.text)
         # Print the name of the column being analyzed and the text string
         print(f"## {self.column} ##")
@@ -275,7 +276,7 @@ class ASVA:
             b = self.group_values[liste[3]]
             variable_name = "row" + str(i)
             globals()[variable_name] = self.pc.loc[(self.pc["A"] == a) & (self.pc["B"] == b)].pval.values
-
+            
         if self.p < 0.05:
             #If two groups are present, draw a line on the graph and add the associated pvalue to the graph
             if len(self.group_values) == 2:
@@ -284,7 +285,7 @@ class ASVA:
                                          0.924*(ylim[1]-ylim[0])+ylim[0],
                                          0.9*(ylim[1]-ylim[0])+ylim[0]], linewidth= 2, color="k")
                 ax1.text(0.15, 0.94*(ylim[1]-ylim[0])+ylim[0],
-                          f"p={around(float(row0.item()), 3)}", fontsize=15)
+                         "p={:.3f}".format(row0.item()), fontsize=15)
 
             #If three groups are present, draw two lines on the graph and add the associated pvalues to the graph
             elif len(self.group_values) == 3:
@@ -293,20 +294,20 @@ class ASVA:
                                          0.924*(ylim[1]-ylim[0])+ylim[0],
                                          0.900*(ylim[1]-ylim[0])+ylim[0]], linewidth= 2, color="k")
                 ax1.text(0.5, 0.94*(ylim[1]-ylim[0])+ylim[0],
-                          f"p={around(float(row0.item()), 3)}", fontsize=15)
+                         "p={:.3f}".format(row0.item()), fontsize=15)
 
                 ax1.plot(self.boxes[1], [0.82*(ylim[1]-ylim[0])+ylim[0],
                                          0.844*(ylim[1]-ylim[0])+ylim[0],
                                          0.844*(ylim[1]-ylim[0])+ylim[0],
                                          0.82*(ylim[1]-ylim[0])+ylim[0]], linewidth= 2, color="k")
                 ax1.text(0, 0.86*(ylim[1]-ylim[0])+ylim[0],
-                          f"p={around(float(row1.item()), 3)}", fontsize=15)
+                         "p={:.3f}".format(row1.item()), fontsize=15)
                 ax1.plot(self.boxes[2], [0.82*(ylim[1]-ylim[0])+ylim[0],
                                          0.844*(ylim[1]-ylim[0])+ylim[0],
                                          0.844*(ylim[1]-ylim[0])+ylim[0],
                                          0.82*(ylim[1]-ylim[0])+ylim[0]], linewidth= 2, color="k")
                 ax1.text(1.1, 0.86*(ylim[1]-ylim[0])+ylim[0],
-                          f"p={around(float(row2.item()), 3)}", fontsize=15)
+                         "p={:.3f}".format(row2.item()), fontsize=15)
 
             #If four groups are present, draw four lines on the graph and add the associated pvalues to the graph
             elif len(self.group_values) == 4:
@@ -315,40 +316,40 @@ class ASVA:
                                          0.924*(ylim[1]-ylim[0])+ylim[0],
                                          0.900*(ylim[1]-ylim[0])+ylim[0]], linewidth= 2, color="k")
                 ax1.text(1, 0.94*(ylim[1]-ylim[0])+ylim[0],
-                          f"p={around(float(row0.item()), 3)}", fontsize=15)
+                         "p={:.3f}".format(row0.item()), fontsize=15)
 
                 ax1.plot(self.boxes[1], [0.820*(ylim[1]-ylim[0])+ylim[0],
                                          0.844*(ylim[1]-ylim[0])+ylim[0],
                                          0.844*(ylim[1]-ylim[0])+ylim[0],
                                          0.820*(ylim[1]-ylim[0])+ylim[0]], linewidth= 2, color="k")
                 ax1.text(0.45, 0.86*(ylim[1]-ylim[0])+ylim[0],
-                          f"p={around(float(row1.item()), 3)}", fontsize=15)
+                         "p={:.3f}".format(row1.item()), fontsize=15)
                 ax1.plot(self.boxes[2], [0.820*(ylim[1]-ylim[0])+ylim[0],
                                          0.844*(ylim[1]-ylim[0])+ylim[0],
                                          0.844*(ylim[1]-ylim[0])+ylim[0],
                                          0.820*(ylim[1]-ylim[0])+ylim[0]], linewidth= 2, color="k")
                 ax1.text(2.05, 0.86*(ylim[1]-ylim[0])+ylim[0],
-                          f"p={np.around(float(row2.item()), 3)}", fontsize=15)
+                         "p={:.3f}".format(row2.item()), fontsize=15)
 
                 ax1.plot(self.boxes[3], [0.740*(ylim[1]-ylim[0])+ylim[0],
                                          0.764*(ylim[1]-ylim[0])+ylim[0],
                                          0.764*(ylim[1]-ylim[0])+ylim[0],
                                          0.740*(ylim[1]-ylim[0])+ylim[0]], linewidth= 2, color="k")
                 ax1.text(-0.05, 0.78*(ylim[1]-ylim[0])+ylim[0],
-                          f"p={around(float(row3.item()), 3)}", fontsize=15)
+                         "p={:.3f}".format(row3.item()), fontsize=15)
                 ax1.plot(self.boxes[4], [0.740*(ylim[1]-ylim[0])+ylim[0],
                                          0.764*(ylim[1]-ylim[0])+ylim[0],
                                          0.764*(ylim[1]-ylim[0])+ylim[0],
                                          0.740*(ylim[1]-ylim[0])+ylim[0]], linewidth= 2, color="k")
                 ax1.text(1.55, 0.78*(ylim[1]-ylim[0])+ylim[0],
-                          f"p={around(float(row4.item()), 3)}", fontsize=15)
+                         "p={:.3f}".format(row4.item()), fontsize=15)
 
                 ax1.plot(self.boxes[5], [0.660*(ylim[1]-ylim[0])+ylim[0],
                                          0.684*(ylim[1]-ylim[0])+ylim[0],
                                          0.684*(ylim[1]-ylim[0])+ylim[0],
                                          0.660*(ylim[1]-ylim[0])+ylim[0]], linewidth= 2, color="k")
                 ax1.text(1, 0.70*(ylim[1]-ylim[0])+ylim[0],
-                          f"p={around(float(row5.item()), 3)}", fontsize=15)
+                         "p={:.3f}".format(row5.item()), fontsize=15)
 
         #Create two empty lists to store the 25th percentile and 75th percentile
         twentyfive = []
