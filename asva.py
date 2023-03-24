@@ -183,7 +183,7 @@ class ASVA:
         # Rename the resulting p-value column to 'pval'
         self.pc.rename(columns={"p-unc":"pval"}, inplace=True)
         # Create a text string containing some information about the test
-        self.text = [f"The data is not normally distributed.\n"
+        self.text = [f"The data is normally distributed.\n"
                      f"--> t-test"]
         self.text = "".join(self.text)
         # Print the name of the column being analyzed and the text string
