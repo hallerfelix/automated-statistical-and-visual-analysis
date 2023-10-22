@@ -6,6 +6,7 @@ This Python code performs statistical analysis on an Excel sheet as follows:
 ![image](https://user-images.githubusercontent.com/80318329/227542366-6d76a53a-372c-4de1-a005-31ed49919c2e.png)
 ![image](https://user-images.githubusercontent.com/80318329/227542527-d5911440-a458-4c13-825d-4e53cc367770.png)
 2. Test the normal distribution of the data using appropriate statistical tests
+
 3. If the data is normally distributed:
   - Test for variance using Levene's test
     - If the variances are equal:
