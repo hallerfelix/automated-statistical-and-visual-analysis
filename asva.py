@@ -226,7 +226,7 @@ class ASVA:
                      data=self.data, color="grey", linewidth=2, fliersize=0)
         # Plot the stripplot
         ax1 = stripplot(x=self.group_column, y=self.column, order=self.group_values, 
-                     data=self.data, color="white", linewidth=1.5, zorder=1, edgecolor="k", size=18)
+                     data=self.data, color="white", linewidth=1.5, zorder=10, edgecolor="k", size=18)
         
         # Set the linewidth and fontsize
         linewidth = 2
