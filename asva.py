@@ -2,7 +2,7 @@
 import importlib
 
 # A list of packages to be imported
-packages = ["PyQt5", "pandas", "numpy", "scipy", "seaborn", "matplotlib", "pingouin"]
+packages = ["PyQt5", "pandas", "numpy", "scipy", "seaborn", "matplotlib", "pingouin", "openpyxl"]
 
 # Iterating over the list of packages
 for package in packages:
