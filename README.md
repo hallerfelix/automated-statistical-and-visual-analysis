@@ -15,10 +15,10 @@ This Python code performs statistical analysis on an Excel sheet as follows:
   - If the variances are unequal:
     - Conduct a Welch's ANOVA, which is a robust version of one-way ANOVA that can handle unequal variances
     - Perform a Games-Howell post-hoc test to compare groups' means and identify significant differences
-  If the data is not normally distributed:
+ 4. If the data is not normally distributed:
     - Perform a Kruskal-Wallis test, which is a non-parametric alternative to one-way ANOVA for non-normal data
     - Conduct a Mann-Whitney U test with a Sidak multiple comparison correction to identify which pairs of groups are significantly different
- 4. Create a new folder called Plots and plot a Boxplot of each column with depending p-values.
+ 5. Create a new folder called Plots and plot a Boxplot of each column with depending p-values.
  
  ![image](https://user-images.githubusercontent.com/80318329/227545430-9bbf821f-4df2-45e4-b2d4-2a6a66b9fbfd.png)
    - if you run the code in the terminal you will get this output:
